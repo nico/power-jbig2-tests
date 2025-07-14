@@ -1,8 +1,11 @@
 Power JBIG2 test files
 ======================
 
-These are JBIG2 test files that used to be at
-<http://spmg.ece.ubc.ca/jbig2/bitstreams/>.  It's still on
+Thsi contains JBIG2 test files. See <https://nico.github.io/power-jbig2-tests/>
+for an overview of the files.
+
+These files used to be at
+<http://spmg.ece.ubc.ca/jbig2/bitstreams/>. The index file is still on
 [archive.org](https://web.archive.org/web/20030117183317/http://spmg.ece.ubc.ca/jbig2/bitstreams/),
 but the all-important link to jb2streams.zip 404s there.
 
