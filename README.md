@@ -38,3 +38,37 @@ A short ad
 
 <https://github.com/SerenityOS/serenity/tree/master/Tests/LibGfx/test-inputs/jbig2>
 contains a bunch more JBIG2 test files.
+
+Mistakes in these files
+-----------------------
+
+* `t89-halftone/*-stripe.jb2` have one PatternDictionary and then one
+  ImmediateHalftoneRegion per stripe, but each ImmediateHalftoneRegion
+  (incorrectly?) sets the retention flag for the PatternDictionary to 0.
+  I think only the last ImmediateHalftoneRegion should do that.
+
+* `042_*.jb2`, `amb_*.jb2` incorrectly (cf 7.3.2) associate EndOfFile
+  with a page
+
+* `042_11.jb2` has refinement huffman table bits set but the SBREFINE bit
+  is not set. This isn't valid per 7.4.3.1.2. (The file still decodes fine.)
+
+* `042_13.jb2` has an OOB in a decoder that isn't mean to produce OOBs.
+  No current PDF viewer can decode this file embedded in a PDF.
+  The OOB happens when reading the first refinement x offset of the
+  second symbol dictionary segment in the file (which is the first with
+  SDREFAGG set). Before the refinement x offset, REFAGGNINST gets decoded
+  (correctly?) as `1`, and the reference symbol id as 286.
+
+* `042_14.jb2` also fails to decode in all current PDF viewers. Not 100%
+  sure why, but it uses a huffman symbol dictionary with SDREFAGG=1. Maybe
+  the file is right and viewers just don't implement support for this.
+  But it's the huffman version of the preceding test, so more likely
+  the encoder wrote bad output for SDREFAGG=1 symbol dictionary segments.
+
+* `042_22.jb2` does not set SDREFAGG but it does set SDREFTEMPLATE. This is
+  invalid per 7.4.2.1.1 Symbol dictionary flags, Bit 12. (Other than that,
+  the file decodes fine.)
+
+* ("Columbia" is misspelled as "Columba" in the 'Source' string in the extension
+  segment of most files -- but some in t89-halftone spell it correctly.)
